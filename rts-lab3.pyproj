@@ -4,8 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>fa568a53-2fcd-405c-8e28-58b81f84105f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>src\main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -38,7 +37,13 @@
     <Compile Include="src\gantt.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\output.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
