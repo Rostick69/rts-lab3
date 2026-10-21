@@ -35,6 +35,7 @@
     <Content Include="docs\gantt_example_methodichka.png" />
     <Content Include="docs\gantt_variant2.png" />
     <Content Include="docs\README.md" />
+    <Content Include="docs\Отчет_ПР3_СРВ.docx" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
