@@ -35,6 +35,9 @@
     <Compile Include="src\analysis.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\gantt.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\models.py">
       <SubType>Code</SubType>
     </Compile>
