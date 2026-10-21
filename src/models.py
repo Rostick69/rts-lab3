@@ -23,7 +23,19 @@ def load_tasks(path):
     tasks = []
     for item in data["tasks"]:
         task = Task(item["name"], item["C"], item["T"], item["D"])
+
+        # Диаграмма строится с шагом 1 мс, поэтому нужны целые числа
+        for value in (task.C, task.T, task.D):
+            if not isinstance(value, int) or value <= 0:
+                raise ValueError(f"У задачи «{task.name}» C, T и D должны быть целыми и больше нуля")
+        # Формула времени отклика в работе используется для дедлайнов D <= T
+        if task.D > task.T:
+            raise ValueError(f"У задачи «{task.name}» дедлайн больше периода (D > T)")
+
         tasks.append(task)
+
+    if not tasks:
+        raise ValueError("В файле нет ни одной задачи")
 
     title = data.get("title", "без названия")  # если названия в файле нет, программа не упадёт
     return title, tasks
