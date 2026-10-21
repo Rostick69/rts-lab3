@@ -30,3 +30,43 @@ def rms_schedulable(tasks):
 def edf_schedulable(tasks):
     """Тест EDF для неявных дедлайнов (D = T): U <= 1 (необходимо и достаточно)."""
     return utilization(tasks) <= 1
+
+
+def response_time_steps(task, higher):
+    """Все шаги рекуррентной формулы R = C + сумма(ceil(R / Tj) * Cj) по задачам выше приоритетом.
+
+    Итерация останавливается, когда R перестаёт меняться (найдено время отклика)
+    или когда R превысил дедлайн (задача не успевает, дальше считать нет смысла).
+    """
+    steps = [task.C]  # начальное приближение R0 = C
+    while True:
+        r = steps[-1]
+        # вмешательство: сколько раз за время r успеют запуститься задачи выше приоритетом
+        interference = sum(math.ceil(r / h.T) * h.C for h in higher)
+        new_r = task.C + interference
+        steps.append(new_r)
+        if new_r == r or new_r > task.D:
+            return steps
+
+
+def response_time(task, higher):
+    """Время отклика задачи в худшем случае (последний шаг итерации)."""
+    return response_time_steps(task, higher)[-1]
+
+
+def response_times(tasks):
+    """Время отклика каждой задачи по RMS: словарь {имя задачи: R}."""
+    ordered = rms_order(tasks)
+    result = {}
+    for i, task in enumerate(ordered):
+        higher = ordered[:i]  # все задачи с меньшим периодом
+        result[task.name] = response_time(task, higher)
+    return result
+
+
+def hyperperiod(tasks):
+    """Гиперпериод - наименьшее общее кратное всех периодов."""
+    h = 1
+    for t in tasks:
+        h = h * t.T // math.gcd(h, t.T)
+    return h
