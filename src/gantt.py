@@ -44,3 +44,23 @@ def gantt(tasks, interval):
             misses.append((t.name, deadline[t.name]))
 
     return timeline, misses
+
+
+def print_gantt(tasks, timeline):
+    """Печатает диаграмму: строка на задачу, █ - задача выполняется, · - не выполняется."""
+    ordered = rms_order(tasks)
+    interval = len(timeline)
+    name_w = max(len("Время, мс"), max(len(t.name) for t in tasks))
+
+    # шкала времени: подпись каждые 5 мс
+    scale = "".join(f"{time:<{CELL * 5}}" for time in range(0, interval + 1, 5))
+    print(f"{'Время, мс':<{name_w}} {scale}")
+
+    for t in ordered:
+        row = ""
+        for time in range(interval):
+            row += "█" * CELL if timeline[time] == t.name else "·" + " " * (CELL - 1)
+        print(f"{t.name:<{name_w}} {row}")
+
+    idle = timeline.count(None)
+    print(f"Простой процессора: {idle} из {interval} мс")
