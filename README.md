@@ -1,7 +1,7 @@
 # Планирование периодических задач: RMS и EDF
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)
-![Dependencies](https://img.shields.io/badge/зависимости-нет-brightgreen)
+![Dependencies](https://img.shields.io/badge/зависимости-matplotlib%20%28по%20желанию%29-blue)
 ![IDE](https://img.shields.io/badge/IDE-Visual%20Studio-5C2D91?logo=visualstudio&logoColor=white)
 
 Практическая работа №3 по дисциплине «Системы реального времени».
