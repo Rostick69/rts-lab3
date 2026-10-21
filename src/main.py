@@ -11,7 +11,7 @@ from pathlib import Path
 from models import load_tasks
 from analysis import hyperperiod
 from output import print_table, print_conclusion
-from gantt import gantt, print_gantt
+from gantt import gantt, print_gantt, save_gantt_png
 
 # Путь строим от расположения этого файла, а не от текущей папки,
 # поэтому программа находит данные при запуске и из Visual Studio, и из консоли
@@ -37,6 +37,9 @@ def main():
             print(f"Пропуск дедлайна: {name} в момент {d} мс")
     else:
         print("Пропусков дедлайнов на гиперпериоде нет.")
+
+    # картинка диаграммы для отчёта (если установлен matplotlib)
+    save_gantt_png(tasks, timeline, PROJECT_DIR / "docs" / f"gantt_{path.stem}.png")
 
 
 if __name__ == "__main__":

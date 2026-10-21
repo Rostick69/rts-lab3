@@ -32,6 +32,8 @@
   <ItemGroup>
     <Content Include="data\example_methodichka.json" />
     <Content Include="data\variant2.json" />
+    <Content Include="docs\gantt_example_methodichka.png" />
+    <Content Include="docs\gantt_variant2.png" />
     <Content Include="docs\README.md" />
     <Content Include="README.md" />
   </ItemGroup>

@@ -64,3 +64,43 @@ def print_gantt(tasks, timeline):
 
     idle = timeline.count(None)
     print(f"Простой процессора: {idle} из {interval} мс")
+
+
+def save_gantt_png(tasks, timeline, path):
+    """Сохраняет диаграмму картинкой (нужна библиотека matplotlib, она не обязательна)."""
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("matplotlib не установлен - картинка диаграммы не сохранена")
+        return
+
+    ordered = rms_order(tasks)
+    fig, ax = plt.subplots(figsize=(10, 0.8 * len(ordered) + 1.2))
+    for row, t in enumerate(reversed(ordered)):
+        # соседние миллисекунды одной задачи склеиваем в один отрезок (начало, длина)
+        segments = []
+        for time, name in enumerate(timeline):
+            if name != t.name:
+                continue
+            if segments and segments[-1][0] + segments[-1][1] == time:
+                segments[-1] = (segments[-1][0], segments[-1][1] + 1)
+            else:
+                segments.append((time, 1))
+        ax.broken_barh(segments, (row - 0.35, 0.7), color="tab:blue", edgecolor="black")
+        # стрелки - моменты выхода новых заданий задачи
+        for release in range(0, len(timeline), t.T):
+            ax.annotate("", xy=(release, row + 0.35), xytext=(release, row + 0.6),
+                        arrowprops=dict(arrowstyle="->", color="red"))
+
+    ax.set_yticks(range(len(ordered)))
+    ax.set_yticklabels([t.name for t in reversed(ordered)])
+    ax.set_xlim(0, len(timeline))
+    ax.set_ylim(-0.6, len(ordered) - 0.2)
+    ax.set_xticks(range(0, len(timeline) + 1))
+    ax.set_xlabel("Время, мс")
+    ax.grid(axis="x", linestyle=":")
+    ax.set_axisbelow(True)  # сетка под полосами, а не поверх
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"Диаграмма сохранена в файл {path}")
